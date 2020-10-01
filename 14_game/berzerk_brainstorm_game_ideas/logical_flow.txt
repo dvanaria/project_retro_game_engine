@@ -1,0 +1,42 @@
+
+   main game loop (library)
+
+       1. initialize engine
+
+       2. build renderer
+
+       3. figure out native pixel
+          format
+
+       4. set up text/font system
+
+       5. call user_set_up_graphics
+
+       6. loop until quit:
+
+             - start timer
+
+             - call user_starting_loop
+
+             - process input
+                 break if quit
+
+             - call user_execute_AI
+
+             - call user_move_sprites
+
+             - call user_collision_detection
+
+             - call user_render_graphics
+
+             - render textgrid background
+             
+             - render textgrid foreground
+
+             - render present!
+
+             - call user_ending_loop
+
+             - frame_count++
+
+        7. clean up code and exit

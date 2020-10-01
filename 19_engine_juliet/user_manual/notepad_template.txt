@@ -1,0 +1,100 @@
+1        1         2         3         4         5         6         7         8
+2  45678901234567890123456789012345678901234567890123456789012345678901234567890
+3
+4
+5
+6
+7           Notepad
+8
+9           80 x 50
+10
+11          Margins:  0.5 (left and right)
+12                   
+13                    0.6 (top and bottom)
+14
+15
+16          Boundaries:  "Col 81"
+17
+18                       "Ln 50"
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+la;skjf;aslkdjf as;ldkfjas;ldfkjas;ldfkjas;ldkfjas;ldkfjas;ldkfjas;ldfkjas;dlfks
+asd
+fa
+asdf
+asdfkajsd;flkjasld;fkjas;ldkfjas;ldkfja;sldkfja;slkdfj;alskdfjasdf
+as
+df
+asdfasd;flkj ;            ;lkasjdf;laskdjf;laskdfj;asldkfja;sldkfj 
+asdf;lkj;lk 
+
+asdf a sdf                  asdf;lkajsdf;lkasjdf;lkasjdf;laskdfj;aslkdjf;aslkdf
+
+asdf as;lkdfjas;ldfjasdkfjas;lkdfjl;askdfj   qwoierjqpoewirujqpwoieurqwpoeiruqwp
+
+
+
+
+asdfa
+sdf
+
+a
+
+
+
+
+
+
+
+
+asdf;lkj               ;alsdkfj;laskdjf;ljk                      ;asdkjf;alsdkfj
+
+
+asdf
+asd
+fas
+dfasdflkjasdfklj  as;ld f;alskdjf;alskdj f asd;flkja sdf
+
+
+
+
+a
+sdfa
+sdf
+
+
+
+
+
+
+;asldkfj a;sldfkjas;ldfkjas;ldkfjas;ldkfja;sldkfjal;skdfj;lasdkjflksdjfldfjfjfjs

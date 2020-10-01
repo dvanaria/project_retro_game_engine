@@ -1,0 +1,66 @@
+Stern Electronics
+Alan McNeil, 
+    an employee of Universal Research Laboratories 
+    (a division of Stern Electronics)
+
+Dave Otto, security chief at McNeil's former 
+    employer Dave Nutting Associates
+
+1980
+
+
+ASTRO DATE 3200
+
+PLANET MAZEON
+
+AUTOMAZEONS
+
+LAZER GUN
+
+EVIL OTTO (ROAMING)
+
+ESCAPE FROM MAZEON STATION (BASE, PLANET)
+
+robots move at different speeds
+lazer bolts fly at different speeds
+repeat rate is different also
+
+drop land mines?
+
+roving Ottobot (cleaners)
+
+
+Stern Electronics
+Alan McNeil, 
+    an employee of Universal Research Laboratories 
+    (a division of Stern Electronics)
+
+Dave Otto, security chief at McNeil's former 
+    employer Dave Nutting Associates
+
+
+
+
+    NEW GAME IDEAS:
+
+ 
+        one room holds the station's power generator (destroy with bomb)
+
+        one room (on border) holds the airlock exit (escape = win)
+
+        Otto is a roaming automazeon, and shoots very fast and very often
+
+        robots have hitpoints and don't blow up, they are "deactivated"
+
+        you can sap the energy from any deactivated automazeon (light -> dark)
+
+        you have hitpoint, maybe 10 pts
+
+        Otto has mucho hitpoints
+
+        walls don't kill, they take away hp, as does lazer blasts
+
+        a larger world exists, and doors are sealed and one-way.
+
+        pick up bombs, drop them, they detonate in 10 seconds (break walls?)
+           wait, why bombs?

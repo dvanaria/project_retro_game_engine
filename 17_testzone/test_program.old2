@@ -1,0 +1,121 @@
+//345678901234567890123456789012345678901234567890123456789012345678901234567890
+//       1         2         3         4         5         6         7         8
+// Filename: test_program.cpp
+// Last Modified: Fri May 15, 2020  07:47AM
+// LOC: 73
+// Filesize: 3703 bytes
+
+/*                                                                            / 
+ * We want to play a sine wave of the form                                    /
+ *                                                                            /
+ *      y=sin(2πft)                                                           /
+ *                                                                            /
+ * Usually f would be cycles per second, and t would be seconds, but it is    /
+ * easier for us to express these as cycles per sample and samples. Here are  /
+ * our includes and some global variables for keeping track of things we'll   /
+ * need.                                                                      / 
+ *                                                                            /
+ *  
+ */                                                                            
+
+ 
+#include "engine_hotel.h"
+
+
+int main(int argc, char* args[]) {
+
+    keyboard_cursor_enabled = false; 
+    show_spin_cycle = true;
+
+    initialize_engine();
+
+
+    textgrid_foreground[0][0] = 'A';    
+    textgrid_foreground[44][59] = 'Z';    
+
+    print_to_textgrid("Hello World, it is I, the Admiral!", 5, 20);
+
+    textgrid_background[1][1] = RED;
+    textgrid_background[43][58] = BLUE;
+    textgrid_background[5][20] = CYAN;
+    textgrid_background[5][21] = CYAN;
+    textgrid_background[5][22] = CYAN;
+    textgrid_background[0][0] = EMPTY;
+
+
+
+
+
+    main_game_loop();
+  
+    SDL_Quit();
+    
+    shutdown_engine();
+
+    return 0;
+}
+
+/*
+void user_starting_loop(void) {}
+void user_keyboard_key_up_handler(SDL_Keycode kc) {}
+void user_keyboard_key_down_handler(SDL_Keycode kc) {}
+void user_keyboard_alpha_numeric_handler(SDL_Keycode kc) {}
+void user_create_all_textures(void) {}
+void user_destroy_all_textures(void) {}
+void user_gamepad_button_handler(SDL_Event e) {}
+void user_update_sprites(void) {}
+void user_collision_detection(void) {}
+void user_render_graphics(void) {}
+void user_ending_loop(void) {}
+void user_shutdown(void) {}
+*/
+
+void user_starting_loop(void) {}
+
+void user_keyboard_key_up_handler(SDL_Keycode kc) {
+    // called on any key press (alpha-numeric or control key)
+    printf("user keyboard key up called\n");
+    fflush(stdout);
+}
+void user_keyboard_key_down_handler(SDL_Keycode kc) {
+    // called on any key press (alpha-numeric or control key)
+    printf("user keyboard key down called\n");
+    fflush(stdout);
+}
+
+void user_keyboard_alpha_numeric_handler(SDL_Keycode kc) {
+
+    // called when engine game loop receives an SDL_TEXTINPUT event
+    printf("user keyboard key alpha/numeric called\n");
+    fflush(stdout);
+
+    if(kc == SDLK_a) {
+
+        for(int i = 0; i < 10; i++) {
+            print_to_textgrid("A was pressed!",5+i,10);
+        }
+
+    } else {
+
+        int rx = rand() % 40;
+        int ry = rand() % 40;
+
+        print_to_textgrid("RANDOM", rx, ry);
+    }
+}
+
+void user_create_all_textures(void) {}
+void user_destroy_all_textures(void) {}
+void user_gamepad_button_handler(SDL_Event e) {}
+void user_update_sprites(void) {}
+void user_collision_detection(void) {}
+void user_render_graphics(void) {}
+
+void user_ending_loop(void) {
+    if(keyboard_control_key_down[LEFT_ARROW] == true) {
+        printf("LEFT ARROW\n");
+        fflush(stdout);
+    }
+}
+
+void user_shutdown(void) {}

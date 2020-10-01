@@ -1,0 +1,308 @@
+         1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+
+
+    ************************************************************************
+
+                      ***  Old School Game Engine API ***
+
+         compsci\sandbox\my_dream_project\high_level_c_and_game_engine\
+                          19_engine_juliet\user_manual
+
+    ************************************************************************
+
+
+    GENERAL GRAPHICS SPECIFICATIONS:
+
+    Screen resolution is 480 x 360 pixels in 27 colors. This makes the screen
+    take up 172,800 memory locations of information (and 27 colors would 
+    require 5-bits to encode, so think of it as about 169 KB per screen,
+    because 1024 x 169 = 173,056). 
+
+    The font is based on the 8 x 8 character set of the Commodore 64, 
+    allowing a text grid that is 60 x 45 characters (a total of 2,700 cells).
+
+    These values are all available through the following global constants:
+    
+        GAME_SCREEN_WIDTH      480
+        GAME_SCREEN_HEIGHT     360
+        FONT_WIDTH               8
+        FONT_HEIGHT              8
+        TEXTGRID_WIDTH          60
+        TEXTGRID_HEIGHT         45
+
+
+
+    ************************************************************************
+    THE KEYBOARD CURSOR:
+
+    By default, 1 of the engine's 3 cursors are activated: the keyboard cursor.
+    This cursor (colored YELLOW) starts at textgrid position 0,0 (the upper-
+    left hand corner of the screen).
+
+    Cursor location can be found using the global variables:
+
+        keyboard_cursor_x  (current column)
+        keyboard_cursor_y  (current row)
+
+
+                                                                          Page 1
+    To control the cursor, the arrow keys are programmed to move the cursor up,
+    down, left, and right. Wrapping is applied automatically, with right-left
+    mapping moving down and up one row as expected.
+
+    The Backspace and Enter keys also behave as expected, moving the cursor
+    back one space or to the next line (and returned to column 0).
+
+    To turn off the cursor (and thus stop keyboard input), set the following
+    boolean value to false:
+
+        keyboard_cursor_enabled
+
+        
+
+    ************************************************************************
+    THE 60x45 TEXTGRID:
+
+    Typing in characters at the cursor (the insertion point for keyboard input)
+    will enter data into the globally available textgrid array:
+
+        textgrid_foreground[row][col]   (contents are ASCII values 0 - 127)
+                                        (datatype char: -128 to 127)
+
+    These ASCII values follow the standard set and are mapped to a tileset 
+    found in the 'graphics' folder (more on the development environment 
+    folder structure in later chapters). There are 128 cells in this tileset,
+    but only the "printable" characters have glyphs:
+
+        32 =        48 = 0      64 = @      80 = P      96 = `      112 = p
+        33 = !      49 = 1      65 = A      81 = Q      97 = a      113 = q
+        34 = "      50 = 2      66 = B      82 = R      98 = b      114 = r
+        35 = #      51 = 3      67 = C      83 = S      99 = c      115 = s
+        36 = $      52 = 4      68 = D      84 = T     100 = d      116 = t
+        37 = %      53 = 5      69 = E      85 = U     101 = e      117 = u
+        38 = &      54 = 6      70 = F      86 = V     102 = f      118 = v
+        39 = '      55 = 7      71 = G      87 = W     103 = g      119 = w
+        40 = (      56 = 8      72 = H      88 = X     104 = h      120 = x
+        41 = )      57 = 9      73 = I      89 = Y     105 = i      121 = y
+        42 = *      58 = :      74 = J      90 = Z     106 = j      122 = z
+        43 = +      59 = ;      75 = K      91 = [     107 = k      123 = {
+        44 = ,      60 = <      76 = L      92 = \     108 = l      124 = |
+        45 = -      61 = =      77 = M      93 = ]     109 = m      125 = }
+        46 = .      62 = >      78 = N      94 = ^     110 = n      126 = ~
+        47 = /      63 = ?      79 = O      95 = _     111 = o      127 =
+ 
+     The other values (0 through 31) are blank, since these mapped to 
+     historically-useful console commands such as Line Feed and Vertical
+     Tab. These don't have any graphical representation in this engine.
+
+                                                                          Page 2
+     There is one exception however, ASCII values 17, 18, 19, and 20. These
+     are mapped to "arrow key" glyphs, which are often useful when writing
+     games:
+
+         17 = UP
+         18 = RIGHT
+         19 = DOWN
+         20 = LEFT
+
+    Since only a subset of the 128 ASCII set is covered by glyphs, you are 
+    free to enter other values for your own programs. The datatype of the 
+    textgrid_foreground is char (1 byte, signed), so valid data would be in
+    the range of -128 to 127.
+
+    Of the positive values (0 through 127), only the following are defined. You
+    are free to use other values for your own purposes:
+
+        33-126 (inclusive = 94 glyphs)
+        17-20 (inclusive = 4 glyphs)
+
+    This leaves 34 values for your own use (128 - 98 = 34), plus the 128 
+    negative values below 0, resulting in 162 user-definable data points.
+
+    You could also alter the glyph sheet (c64_font.bmp) to include your own
+    customized glyphs to work with the textgrid system!
+
+    
+
+
+    ****************************************************************************
+    THE USER-DEFINED CALLBACK FUNCTIONS:
+
+    This is really the heart of the game engine. A minimal program using this
+    engine only needs to initialize the system, and then call the main loop.
+    The entire time the program is running, it remains in this loop until the
+    user decides to exit the program (default exit key is ESCAPE, or the user
+    can click on the 'x' box if the program is running in window mode). Here 
+    is what a minimal program looks like:
+
+        int main(int argc, char* argv[]) {
+
+            initialize_engine();
+            main_game_loop();
+            shutdown_engine();
+
+            return 0;
+        }
+
+
+                                                                          Page 3
+    If this is the case, then how is a game program that uses this engine 
+    supposed to interact during gameplay? The answer is a set of mandatory
+    callback functions that are called each and every game loop. These
+    functions MUST be included in the game program, and it is up to the 
+    programmer whether or not they are defined or left as empty definitions:
+
+        void user_starting_loop(void) {}
+        void user_keyboard_key_up_handler(SDL_Keycode kc) {}
+        void user_keyboard_key_down_handler(SDL_Keycode kc) {}
+        void user_keyboard_alpha_numeric_handler(SDL_Keycode kc) {}
+        void user_create_all_textures(void) {}
+        void user_destroy_all_textures(void) {}
+        void user_gamepad_button_handler(SDL_Event e) {}
+        void user_update_sprites(void) {}
+        void user_collision_detection(void) {}
+        void user_render_graphics(void) {}
+        void user_ending_loop(void) {}
+        void user_shutdown(void) {}
+
+    There are a total of 12 user-definable functions, and each one will be 
+    explained in detail at later points in this guide.
+
+
+
+
+    ****************************************************************************
+    THE COLOR SYSTEM:
+
+    There are 27 colors encoded using 24-bits (RGB values). Only the values
+    0, 127, and 254 are used to define each color element (Red, Green, Blue).
+
+    An enumeration (called COLORS) is used to define each one:
+
+              BLACK            (0)            GRAY_GREEN      (16)
+              DARK_BLUE        (1)            LIGHT_CYAN      (17)
+              BLUE             (2)            RED             (18)
+              DARK_GREEN       (3)            PINK            (19)
+              GRAY_BLUE_GREEN  (4)            MAGENTA         (20)
+              SKY_BLUE         (5)            ORANGE          (21)
+              GREEN            (6)            GRAY_RED        (22)
+              POND_GREEN       (7)            LAVENDER        (23)
+              CYAN             (8)            YELLOW          (24)
+              MAROON           (9)            SAND            (25)
+              VIOLET           (10)           WHITE           (26)
+              POWDER_BLUE      (11)
+              MOSS             (12)
+              GRAY             (13)
+              GRAY_BLUE        (14)           NUM_COLORS      (27)
+              KERMIT           (15)           EMPTY           (28)
+                                                                          Page 4
+    You can use these values by name, perhaps as a way to identify what color
+    exists at a particular cell in the textgrid_background, for example.   
+
+    There is a string representation of each of these as well, which the 
+    programmer can retrieve with the following function:
+
+        get_color_name(i)   (send in an enumeration value, returns char *)
+
+    Examples:
+
+        printf("The name of color #4 is %s", get_color_name(4));
+        printf("RED has the following enumeration value: %d", RED);
+
+    The actual RGB values encoded for each color can also be obtained, should
+    you ever need them (say, to pass in RGB color values to an SDL function 
+    for example:
+
+        r_val[NUM_COLORS];      (each array holds 27 unsigned values 0-255)
+        g_val[NUM_COLORS];
+        b_val[NUM_COLORS];
+
+
+
+                       
+    ****************************************************************************
+    THE INPUT SYSTEM:
+
+    There are a total of three input devices: Keyboard, Mouse, Gamepad. Each of
+    these can be enabled or disabled by setting the following control variables
+    after initialization:
+
+        mouse_enabled = true;
+        gamepad_enabled = true;
+ 
+    The keyboard is always enabled by default, and can not be disabled.
+
+    After enabling/disabling input devices, there are three global arrays of 
+    function pointers that are used to point to the desired function within
+    your game program. Each function will perform a specific game action, and
+    you can map specific inputs to each game function.
+
+    This may seem over-engineered, but the added complexity is implemented in
+    order to support in-game button remapping, which is a very common and 
+    necessary game feature in today's game (as well on graphics options - more
+    on this later).
+
+    Each game function you implement should have the following signiture:
+
+        void game_function_name(int action);
+                                                                          Page 5
+    Here are some examples of game actions defined in your program:
+
+        void game_action_a(int action) {
+            printf("!! game action a : %d\n", action);
+        }
+        void game_action_b(int action) {
+            printf("!! game action b : %d\n", action);
+        }
+        void game_action_c(int action) {
+            printf("!! game action c : %d\n", action);
+        }
+
+    To map these functions to specific functions, you can set individual
+    elements in the function pointer arrays to point to specific functions.
+
+    Here are the three arrays you will be using:
+
+
+
+    To do this, you'll need to know the corresponding index to use for 
+    each array.
+
+
+
+ 18 const int DESIRED_FPS = 25;
+
+
+         1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+
+
+
+Minimal Program:
+
+  1 #include "engine_juliet.h"
+  2
+  3 void user_starting_loop(void) {}
+  4 void user_keyboard_key_up_handler(SDL_Keycode kc) {}
+  5 void user_keyboard_key_down_handler(SDL_Keycode kc) {}
+  6 void user_keyboard_alpha_numeric_handler(SDL_Keycode kc) {}
+  7 void user_create_all_textures(void) {}
+  8 void user_destroy_all_textures(void) {}
+  9 void user_gamepad_button_handler(SDL_Event e) {}
+ 10 void user_update_sprites(void) {}
+ 11 void user_collision_detection(void) {}
+ 12 void user_render_graphics(void) {}
+ 13 void user_ending_loop(void) {}
+ 14 void user_shutdown(void) {}
+ 15
+ 16 int main(int argc, char* argv[]) {
+ 17
+ 18     initialize_engine();
+ 19     main_game_loop();
+ 20     shutdown_engine();
+ 21
+ 22     return 0;
+ 23 }
